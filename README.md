@@ -166,6 +166,10 @@ The catalog workflow was tested with the installed CLI. Newer Docker Toolkit pro
 
 ### Credentials
 
+> 🚀 **New to Systeme.io? [Create your free account here](https://systeme.io/?sa=sa014961805313a1b0df13d9b881e5c0c4563dda8f)**, then follow the API-key steps below. Already registered? Go straight to your settings.
+
+*Affiliate link: SoftReviewed may earn a commission from eligible purchases.*
+
 Before using account actions, create your own **public API key**:
 
 1. Sign in and open [Systeme.io API-key settings](https://systeme.io/dashboard/profile/public-api-settings), or use your profile picture -> **Settings -> MCP & API keys**.
