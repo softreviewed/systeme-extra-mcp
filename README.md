@@ -1,5 +1,7 @@
 # Systeme.io MCP Server: Use AI to Automate Sales Funnels, Email Marketing and CRM
 
+![Give your AI more Systeme.io tools for course access, community membership and subscriptions](docs/images/cover.png)
+
 **Manage student access, community members and customer subscriptions with your AI assistant.**
 
 Use AI to carry out supported sales funnel, email marketing and customer-management tasks with the **official Systeme.io MCP**, then add **Systeme.io Extra MCP** for course access, community membership, custom contact fields, customer subscriptions, event notifications and SMS configuration checks.
@@ -14,7 +16,7 @@ Systeme.io Extra MCP connects its additional account actions to assistants such 
 
 Built by SoftReviewed. Independent project; not endorsed by Systeme.io.
 
-![Capabilities](docs/systeme-mcp-github-vertical.png)
+![Systeme.io Extra MCP benefits, six tool groups, setup steps and supported-action limits](docs/images/infographic.png)
 
 ## Guide
 
