@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "systeme-extra": {
+      "command": "docker",
+      "args": [
+        "mcp",
+        "gateway",
+        "run",
+        "--catalog",
+        "systeme-extra.yaml",
+        "--servers",
+        "systeme-extra"
+      ]
+    }
+  }
+}

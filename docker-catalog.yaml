@@ -1,0 +1,19 @@
+version: 2
+name: systeme-extra
+displayName: Systeme.io Extra MCP
+registry:
+  systeme-extra:
+    title: Systeme.io Extra
+    description: Course enrolments, community access, custom fields, subscriptions, webhooks and SMS configuration.
+    type: server
+    image: mcp-systeme-extra:v1
+    secrets:
+      - name: systeme.api_key
+        env: SYSTEME_API_KEY
+    tools:
+      - name: systeme_extra_enrolments
+      - name: systeme_extra_communities
+      - name: systeme_extra_contact_fields
+      - name: systeme_extra_subscriptions
+      - name: systeme_extra_webhooks
+      - name: systeme_extra_sms

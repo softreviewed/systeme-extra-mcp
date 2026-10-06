@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-06",
+  "mode": "read-only",
+  "writes_performed": 0,
+  "checks": [
+    {
+      "tool": "enrolments",
+      "action": "list",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "tool": "communities",
+      "action": "list",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "tool": "communities",
+      "action": "list_members",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "tool": "webhooks",
+      "action": "list",
+      "ok": true,
+      "status": 200,
+      "error": null
+    },
+    {
+      "tool": "sms",
+      "action": "services",
+      "ok": false,
+      "status": 424,
+      "error": "API request failed; no automatic write retry."
+    },
+    {
+      "tool": "sms",
+      "action": "numbers",
+      "ok": false,
+      "status": 424,
+      "error": "API request failed; no automatic write retry."
+    },
+    {
+      "tool": "sms",
+      "action": "twilio_account",
+      "ok": false,
+      "status": 404,
+      "error": "API request failed; no automatic write retry."
+    },
+    {
+      "tool": "subscriptions",
+      "action": "list",
+      "skipped": "No contact identifier returned by tested collections; no ID guessed."
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+[
+  {
+    "tool": "systeme_extra_enrolments",
+    "input": {
+      "action": "create",
+      "parameters": {
+        "courseId": 123
+      },
+      "body": {
+        "contactId": 456,
+        "accessType": "full_access"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_enrolments",
+    "input": {
+      "action": "list",
+      "parameters": {
+        "course": "123",
+        "limit": 10,
+        "order": "asc"
+      }
+    }
+  },
+  {
+    "tool": "systeme_extra_enrolments",
+    "input": {
+      "action": "remove",
+      "parameters": {
+        "id": "ENROLMENT_ID"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_communities",
+    "input": {
+      "action": "list",
+      "parameters": {
+        "query": "Customers",
+        "limit": 10
+      }
+    }
+  },
+  {
+    "tool": "systeme_extra_communities",
+    "input": {
+      "action": "add_member",
+      "parameters": {
+        "communityId": 123
+      },
+      "body": {
+        "contactId": 456
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_communities",
+    "input": {
+      "action": "list_members",
+      "parameters": {
+        "community": 123,
+        "contact": 456,
+        "limit": 10
+      }
+    }
+  },
+  {
+    "tool": "systeme_extra_communities",
+    "input": {
+      "action": "remove_member",
+      "parameters": {
+        "id": "MEMBERSHIP_ID"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_contact_fields",
+    "input": {
+      "action": "create",
+      "parameters": {},
+      "body": {
+        "fieldName": "Customer type",
+        "slug": "customer_type"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_contact_fields",
+    "input": {
+      "action": "remove",
+      "parameters": {
+        "slug": "customer_type"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_contact_fields",
+    "input": {
+      "action": "update",
+      "parameters": {
+        "slug": "customer_type"
+      },
+      "body": {
+        "fieldName": "Customer segment"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_subscriptions",
+    "input": {
+      "action": "list",
+      "parameters": {
+        "contact": 456,
+        "limit": 10
+      }
+    }
+  },
+  {
+    "tool": "systeme_extra_subscriptions",
+    "input": {
+      "action": "cancel",
+      "parameters": {
+        "id": "SUBSCRIPTION_ID"
+      },
+      "body": {
+        "cancel": "WhenBillingPeriodEnds"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_webhooks",
+    "input": {
+      "action": "list"
+    }
+  },
+  {
+    "tool": "systeme_extra_webhooks",
+    "input": {
+      "action": "create",
+      "parameters": {},
+      "body": {
+        "name": "Sales receiver",
+        "url": "https://example.com/hooks/systeme",
+        "secret": "REPLACE_WITH_PRIVATE_WEBHOOK_SECRET",
+        "subscriptions": [
+          {
+            "event": "SALE_NEW",
+            "schemaVersion": 2
+          }
+        ],
+        "active": true
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_webhooks",
+    "input": {
+      "action": "get",
+      "parameters": {
+        "id": "WEBHOOK_ID"
+      }
+    }
+  },
+  {
+    "tool": "systeme_extra_webhooks",
+    "input": {
+      "action": "remove",
+      "parameters": {
+        "id": "WEBHOOK_ID"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_webhooks",
+    "input": {
+      "action": "update",
+      "parameters": {
+        "id": "WEBHOOK_ID"
+      },
+      "body": {
+        "active": false
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_sms",
+    "input": {
+      "action": "services"
+    }
+  },
+  {
+    "tool": "systeme_extra_sms",
+    "input": {
+      "action": "numbers"
+    }
+  },
+  {
+    "tool": "systeme_extra_sms",
+    "input": {
+      "action": "twilio_account"
+    }
+  }
+]
