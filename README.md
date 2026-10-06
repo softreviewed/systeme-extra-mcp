@@ -4,6 +4,10 @@
 
 Use AI to carry out supported sales funnel, email marketing and customer-management tasks with the **official Systeme.io MCP**, then add **Systeme.io Extra MCP** for course access, community membership, custom contact fields, customer subscriptions, event notifications and SMS configuration checks.
 
+> 🚀 **Don't have an account yet? [Create your free Systeme.io account](https://systeme.io/?sa=sa014961805313a1b0df13d9b881e5c0c4563dda8f)** to get started with the platform. Already have one? Use your existing account.
+
+*Affiliate link: SoftReviewed may earn a commission from eligible purchases.*
+
 The title describes this combined setup. This independent companion does not itself build funnels, send email campaigns or provide a complete CRM. Here, automation means asking a connected assistant to perform supported actions; it does not mean an unattended business that runs without your instructions or review.
 
 Systeme.io Extra MCP connects its additional account actions to assistants such as Claude, Codex, Antigravity and Cursor. Start with the [official Systeme.io MCP overview](https://systeme.io/mcp) for the wider platform capabilities, then use the comparison below to decide whether you need this companion.
