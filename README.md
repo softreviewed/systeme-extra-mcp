@@ -172,7 +172,7 @@ The catalog workflow was tested with the installed CLI. Newer Docker Toolkit pro
 
 Before using account actions, create your own **public API key**:
 
-1. Sign in and open [Systeme.io API-key settings](https://systeme.io/dashboard/profile/public-api-settings), or use your profile picture -> **Settings -> MCP & API keys**.
+1. Sign in and open [Systeme.io API-key settings](https://systeme.io/dashboard/profile/public-api-settings?sa=sa014961805313a1b0df13d9b881e5c0c4563dda8f), or use your profile picture -> **Settings -> MCP & API keys**.
 2. In **Public API keys**, select **Create**. Give it a recognizable name such as `Systeme.io Extra MCP`, choose an expiration appropriate for your setup, then save.
 3. Store the key securely using the connection method below. The official MCP credential is a different key and cannot replace this public API credential.
 4. Start with help, a preview and a harmless account read before requesting changes. Help and previews can run without the key; account reads and writes need it.
