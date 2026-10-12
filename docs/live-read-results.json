@@ -6,217 +6,218 @@
     {
       "tool": "account",
       "action": "domains",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "account",
       "action": "files",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "automation_emails",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "automation_emails",
       "action": "list_to_address",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "automation_rules",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "booking",
       "action": "availability",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "booking",
       "action": "bookings",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "booking",
       "action": "events",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "campaigns",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "communities",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "communities",
       "action": "list_members",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "contact_fields",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "contacts",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "coupons",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "courses",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "courses",
       "action": "modules",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "courses",
       "action": "themes",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "enrolments",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "funnels",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "funnels",
       "action": "search_steps",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "newsletters",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "price_plans",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "products",
       "action": "list_digital",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "products",
       "action": "list_physical",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "sms",
       "action": "numbers",
       "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "status": 424,
+      "error": "The Twilio integration is not configured; no automatic write retry."
     },
     {
       "tool": "sms",
       "action": "services",
       "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "status": 424,
+      "error": "The Twilio integration is not configured; no automatic write retry."
     },
     {
       "tool": "sms",
       "action": "templates",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "sms",
       "action": "twilio_account",
       "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "status": 404,
+      "error": "The Twilio integration is not configured; no automatic write retry."
     },
     {
       "tool": "tags",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "webhooks",
       "action": "list",
-      "ok": false,
-      "status": 401,
-      "error": "API request failed; no automatic write retry."
+      "ok": true,
+      "status": 200,
+      "error": null
     },
     {
       "tool": "subscriptions",
       "action": "list",
-      "skipped": "No contact identifier returned by tested collections; no ID guessed."
+      "ok": true,
+      "status": 200
     }
   ]
 }

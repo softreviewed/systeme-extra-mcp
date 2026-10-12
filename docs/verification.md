@@ -7,7 +7,8 @@
 - Docker image: `mcp-systeme-extra:v2` built successfully.
 - 20 automated tests passed (`python test_server.py`): valid previews for all 152 operations, write gate, read-only POST without confirm, high-impact write blocked, compact and detailed help, deep schema references and mocked HTTP behaviour.
 - Gateway smoke test (`tests/gateway_smoke.py`): 22 tools, 152 operations and a write preview; no API requests sent.
-- Live read-only checks (`tests/live_read_checks.py`, 30 GET actions plus a subscription list): not yet run; no stored key.
+- Live read-only checks (`tests/live_read_checks.py`, 30 GET actions plus a subscription list): 28 returned HTTP 200 across all groups; SMS services, numbers and Twilio account returned the documented 424 / 424 / 404 because Twilio is not connected. The user's own public API key was used via Docker secrets. No writes performed.
+- Note: the official MCP key does not work here; this server needs a key from **Public API keys** (Systeme.io replies "Invalid API Key." otherwise).
 - Live writes: not performed.
 - GitHub publication: not performed.
 

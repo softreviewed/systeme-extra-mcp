@@ -307,7 +307,7 @@ The full map of 152 actions, with method, path, required input and read/write ty
 | No tools | Check image tag, catalog path and server name |
 | Duplicate tools | Reuse the existing Gateway connection |
 | `configured:false` | Store Docker secret; missing/`<UNKNOWN>` keys cannot authenticate |
-| HTTP 401 / 403 | Check public API key and permissions |
+| HTTP 401 "Invalid API Key." | Use a key from **Public API keys**, not the MCP key; check it was not deleted |
 | Invalid input | Use help; verify spelling, types and required fields |
 | Partial access rejected | Supply a non-empty integer `modules` array |
 | Subscription list cannot run | Find a real contact ID first |
@@ -323,7 +323,7 @@ The full map of 152 actions, with method, path, required input and read/write ty
 |---|---|
 | Local tests | 20 passed; previews for all 152 actions, write gates, help and mocked HTTP |
 | Docker Gateway | 22 tools and 152 operations listed; write preview passed; no API requests sent |
-| Authenticated reads | Script ready (`tests/live_read_checks.py`, 30 read-only checks); waiting for a stored key |
+| Authenticated reads | 28 of 31 read-only checks returned 200, including a subscription list; 3 Twilio checks gave the documented "not configured" replies (424 / 424 / 404) |
 | Live writes | Not performed; local validation only |
 | Individual assistant apps | Configs checked against documentation; not all tested in-app |
 
