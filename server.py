@@ -173,8 +173,13 @@ def manage(domain, action="help", parameters=None, body=None, confirm=False, dry
                                       json=request["body"] if request["body"] is not None else None)
         if not response.is_success:
             documented = OPERATIONS[(domain, action)]["operation"].get("responses", {}).get(str(response.status_code), {})
+            try:
+                detail = response.json().get("detail")
+            except ValueError:
+                detail = None
             return {"ok": False, "status": response.status_code,
                     "error": documented.get("description", "API request failed") + "; no automatic write retry.",
+                    "detail": str(detail)[:300] if detail else None,
                     "retry_after": response.headers.get("Retry-After")}
         result = response.json() if response.content else None
         return {"ok": True, "status": response.status_code, "data": redact(result),
