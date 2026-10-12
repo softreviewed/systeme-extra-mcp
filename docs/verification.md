@@ -9,6 +9,8 @@
 - Gateway smoke test (`tests/gateway_smoke.py`): 22 tools, 152 operations and a write preview; no API requests sent.
 - Live read-only checks (`tests/live_read_checks.py`, 30 GET actions plus a subscription list): 28 returned HTTP 200 across all groups; SMS services, numbers and Twilio account returned the documented 424 / 424 / 404 because Twilio is not connected. The user's own public API key was used via Docker secrets. No writes performed.
 - Note: the official MCP key does not work here; this server needs a key from **Public API keys** (Systeme.io replies "Invalid API Key." otherwise).
+- Direct Python route: a clean `git archive` copy installed into a new venv from `requirements-lock.txt` (Python 3.11.9); a stdio client listed 22 tools and a write preview passed.
+- `AGENTS.md` added so an assistant given the repo link can install either route.
 - Live writes: not performed.
 - GitHub publication: not performed.
 

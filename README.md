@@ -14,8 +14,30 @@ Here, automation means asking a connected assistant to perform supported actions
 
 Built by SoftReviewed. Independent project; not endorsed by Systeme.io.
 
+![Systeme.io Extra MCP: what the official MCP was missing, comparison, which key to use and how to get started](docs/images/infographic.png)
+
+## Quick start: let your AI install it
+
+1. Create a **Public API key** in Systeme.io: **Settings -> MCP & API keys -> Public API keys -> Create**. (Not the MCP key on the same page; that one only works for the official MCP.)
+2. Paste this into your AI assistant (Claude Code, Codex, Cursor, Antigravity and similar tools that can run commands):
+
+> Install https://github.com/softreviewed/systeme-extra-mcp for me. Follow its AGENTS.md. Keep my other MCP servers. Do not ask me to paste my API key in chat.
+
+3. Save your key when the assistant asks (a hidden prompt, or one line in your config file), then restart the app.
+4. Ask: **"List my Systeme.io tags."** If you see your tags, you are ready.
+
+The assistant picks the setup that fits your computer:
+
+| Your computer has | Setup used | Where the key is kept |
+|---|---|---|
+| Docker Desktop with MCP Toolkit | Docker Gateway | Docker's secret store (safest) |
+| Python 3.11 or newer | Direct Python | Your assistant's config file |
+
+Prefer to do it yourself? Follow [Connect your assistant](#connect-your-assistant).
+
 ## Guide
 
+- [Quick start](#quick-start-let-your-ai-install-it)
 - [What you can do](#what-you-can-do)
 - [Official Systeme.io MCP or this one?](#official-systemeio-mcp-or-this-one)
 - [Is it right for you?](#is-it-right-for-you)
@@ -78,7 +100,9 @@ Only documented endpoints are allowed. Two deprecated endpoints (`PUT` newslette
 | Credential | Official MCP key | Public API key in Docker's secret store |
 | Write protection | Its own rules | Preview, then explicit confirm for every write |
 
-You can use either one alone or both together. The official inventory was inspected on **6 October 2026**; it may change.
+You can use either one alone or both together. See the [official Systeme.io MCP overview](https://systeme.io/mcp) for what it offers. The official inventory was inspected on **6 October 2026**; it may change.
+
+**Which key?** The official MCP uses an **MCP key**. This server uses a **Public API key**. Both are under **Settings -> MCP & API keys**, in separate lists.
 
 ## Is it right for you?
 
@@ -87,16 +111,16 @@ You can use either one alone or both together. The official inventory was inspec
 - **The whole public API in one connection:** 22 tool groups across contacts, email, funnels, courses and payments.
 - **Works without the official MCP:** useful when you want one local connection for every assistant.
 - **Preview before changing account data:** every write is previewed and needs your go-ahead.
-- **Credentials stay out of client configuration:** the API key lives in Docker's secret store.
+- **Two ways to install:** Docker Gateway keeps the key in Docker's secret store; direct Python needs no Docker at all.
 - **Portable setup:** rebuild the image and recreate your secret when moving computers.
 
 ### Trade-offs and limitations
 
-- **Initial setup is technical.** You need Docker Gateway and a Systeme.io public API key. Your assistant or a technical helper can follow the setup below.
+- **Setup takes a few minutes.** You need Docker Desktop or Python 3.11+, and a Systeme.io Public API key. An assistant that can run commands can do the setup for you.
 - **Not every action is tested live.** All 152 are checked offline; live checks cover read actions only. See [verification limits](#verification-limits).
 - **Only what the API offers.** Anything missing from Systeme.io's public API (for example, refunds or sending a single SMS) is missing here too.
 - **Your account's limits still apply.** It does not unlock paid features, raise capacity or bypass permissions.
-- **No built-in cloud hosting.** It runs locally; a cloud-only assistant needs a separately hosted, authenticated connection.
+- **No built-in cloud hosting.** It runs on your computer; a cloud-only assistant needs a separately hosted, authenticated connection.
 
 ## New to Systeme.io?
 
@@ -112,19 +136,26 @@ You can also visit [SoftReviewed](https://softreviewed.com/) for additional reso
 
 ## Let your assistant handle the setup details
 
-Share this repository URL with your assistant and ask:
+Share this repository URL with your assistant and use the prompt from the [Quick start](#quick-start-let-your-ai-install-it). Step-by-step instructions written for assistants are in [AGENTS.md](AGENTS.md): how to choose Docker or direct Python, where each app keeps its config, how to store the key safely and how to check it works.
 
-> Read the README and setup files. Explain which features fit my task, inspect my existing Docker Gateway configuration, and help connect this server without replacing my other servers. Start with help and a harmless read. Do not make account changes without my authorization.
-
-An assistant can read the instructions, but it still needs access to your local setup to configure it. Never put your API key into a public issue or commit.
+An assistant can read the instructions, but it needs to be able to run commands on your computer to set it up (for example Claude Code, Codex, Cursor or Antigravity). A chat-only assistant can still walk you through the steps. Never put your API key into a public issue or commit.
 
 The remaining sections are for installation and technical reference. Exact action names, required inputs and edge cases are in the [detailed feature reference](docs/feature-reference.md); copyable requests are in [the operation examples](examples/operations.json).
 
 ## Connect your assistant
 
-Assistant -> Docker Gateway -> container -> official Systeme.io API.
+Two ways to run it. Both give the same 22 tools.
 
-### Portable catalog setup
+| | Option A: Docker Gateway | Option B: Direct Python |
+|---|---|---|
+| You need | Docker Desktop with MCP Toolkit | Python 3.11 or newer |
+| Key stored in | Docker's secret store | Your assistant's config file |
+| Best for | Keeping keys out of config files; sharing one Gateway | The quickest setup, no Docker |
+
+Option A: Assistant -> Docker Gateway -> container -> Systeme.io API.
+Option B: Assistant -> Python on your computer -> Systeme.io API.
+
+### Option A: Docker Gateway
 
 Install/start Docker Desktop with MCP Toolkit/Gateway available. From this repository, check the CLI and build the image:
 
@@ -181,7 +212,41 @@ try {
 }
 ```
 
-No credentials belong in client JSON or Git. The temporary verification key and its Docker secret were removed; your installation needs its own key. Help and previews work without credentials; account requests do not.
+With Option A, no credentials belong in client JSON. With Option B, the key sits in your assistant's config file on your computer only; never commit or share that file. Help and previews work without credentials; account requests do not.
+
+### Option B: Direct Python (no Docker)
+
+Download the code and install its requirements once:
+
+```sh
+git clone https://github.com/softreviewed/systeme-extra-mcp.git
+cd systeme-extra-mcp
+python -m venv .venv
+```
+
+Then, on Windows: `.venv\Scripts\python -m pip install -r requirements-lock.txt`. On macOS/Linux: `.venv/bin/python -m pip install -r requirements-lock.txt`.
+
+Add this entry to your assistant's config, using the full path to your folder. On Windows the Python path ends in `.venv/Scripts/python.exe`.
+
+```json
+{
+  "mcpServers": {
+    "systeme-extra": {
+      "command": "/ABSOLUTE/PATH/systeme-extra-mcp/.venv/bin/python",
+      "args": ["/ABSOLUTE/PATH/systeme-extra-mcp/server.py"],
+      "env": { "SYSTEME_API_KEY": "YOUR_PUBLIC_API_KEY" }
+    }
+  }
+}
+```
+
+Replace `YOUR_PUBLIC_API_KEY` with your key, save, then fully restart the app. Ready-made files for each app are in [examples/clients/direct](examples/clients/direct/): Claude Desktop, Cursor, Antigravity (JSON) and Codex (TOML). For Claude Code:
+
+```sh
+claude mcp add --transport stdio --scope user systeme-extra --env SYSTEME_API_KEY=YOUR_PUBLIC_API_KEY -- /ABSOLUTE/PATH/systeme-extra-mcp/.venv/bin/python /ABSOLUTE/PATH/systeme-extra-mcp/server.py
+```
+
+The sections below show the Option A (Docker) entry for each app. For Option B, use the same file locations with the entry above.
 
 ### Claude Desktop
 
@@ -316,6 +381,8 @@ The full map of 152 actions, with method, path, required input and read/write ty
 | HTTP 429 | Respect returned retry/rate-limit information |
 | Write timed out | Check account state before retrying |
 | Source edits invisible | Rebuild image and restart client/Gateway |
+| `ModuleNotFoundError` (Option B) | The config must point at the `.venv` Python, not the system one |
+| Tools missing after config edit | Fully quit and reopen the app |
 
 ## Verification limits
 
@@ -323,6 +390,7 @@ The full map of 152 actions, with method, path, required input and read/write ty
 |---|---|
 | Local tests | 20 passed; previews for all 152 actions, write gates, help and mocked HTTP |
 | Docker Gateway | 22 tools and 152 operations listed; write preview passed; no API requests sent |
+| Direct Python (no Docker) | Clean copy installed from `requirements-lock.txt` on Python 3.11; client connected over stdio, 22 tools, write preview passed |
 | Authenticated reads | 28 of 31 read-only checks returned 200, including a subscription list; 3 Twilio checks gave the documented "not configured" replies (424 / 424 / 404) |
 | Live writes | Not performed; local validation only |
 | Individual assistant apps | Configs checked against documentation; not all tested in-app |

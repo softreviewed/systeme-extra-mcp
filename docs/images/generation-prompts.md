@@ -1,72 +1,17 @@
 # Visual generation record
 
-Generated with the built-in imagegen tool. Images inspected for text, scope and unclipped layout. Conceptual illustrations, not actual dashboards.
+v2 images generated 13 October 2026 with GPT Image 2 (cover via Merlin, infographic via Qolaba), then text-checked. Conceptual illustrations, not actual dashboards. No recreated Systeme.io logo.
 
-## Cover
+## Cover (16:9)
 
-Create a premium finished wide 16:9 GitHub README cover for Systeme.io Extra MCP by SoftReviewed. Visually match a clean ice-blue, white and navy editorial software cover with cyan-blue accents and polished dimensional meaningful icons. Generous margins, large perfectly legible unclipped text. No people, no actual product UI or generated fake screenshots, no recreated product logos.
-Exact main title: "Give Your AI More Systeme.io Tools"
-Exact subtitle: "Course access, community members and subscriptions."
-Exact compact brand line: "Systeme.io Extra MCP · By SoftReviewed"
-Exact bottom note: "6 tools · 20 public API operations · Docker Gateway"
-Design right side as assistant hub connected to distinct course/graduation, community/people, recurring subscription/calendar and contact-field/form icons, with elegant connector paths. All are conceptual illustrations, not actual dashboards.
-A small clear secondary phrase: "Works alongside the official MCP"
-Keep accurate scope: this companion does not itself build funnels, send email or send SMS. Do not claim those capabilities, conversions, official affiliation, autonomous business operation or that every assistant supports every tool. No fictitious performance figures. Strong readable headline, restrained clean composition and beautiful color. Output one image.
+Premium wide GitHub README cover for "Systeme.io Extra MCP" by SoftReviewed. Ice-blue, white and navy editorial look with cyan-blue accents and dimensional icons. Left text: "Your AI, Full Systeme.io Access" / "Every public API action, previewed before it changes anything." / "Systeme.io Extra MCP · By SoftReviewed" / "22 tools · 152 actions · Any AI assistant". Right: an AI hub connected to contacts, email, funnel, course, product, calendar and webhook icons.
 
-## Infographic
+## Infographic (portrait)
 
-Create a finished premium vertical infographic for the public GitHub README of Systeme.io Extra MCP by SoftReviewed, portrait 2:3 with high-resolution perfectly legible large text. White and pale ice blue, navy typography, blue/cyan accent, polished meaningful icons, generous spacing. No people, fake dashboards, recreated product logos, misleading performance stats. Match an elegant consistent software documentation marketing style. Render exact text with no invented claims:
-
-Title: "Systeme.io Extra MCP"
-Subtitle: "More account tools for your AI assistant"
-Byline: "By SoftReviewed"
-
-Section heading: "Why use it?"
-Three benefits with distinct icons:
-"Handle student access"
-"Manage community membership"
-"Review supported changes before execution"
-
-Section heading: "Six tool groups"
-Use 2-by-3 grid of icons with exact captions:
-"Course enrolments"
-"Community members"
-"Custom contact fields"
-"Customer subscriptions"
-"Webhooks"
-"SMS configuration checks"
-Compact note: "6 tools • 20 public API operations"
-
-Section heading: "Use it alongside the official MCP"
-Two complementary blocks, not superiority claim:
-"Official MCP"
-"Use the account actions it exposes."
-"Extra MCP"
-"Add the supported operations listed above."
-Sentence: "Available actions depend on your connection and account."
-
-Section heading: "How to get started"
-Four numbered connected steps:
-"1  Follow the README setup"
-"2  Add it through Docker Gateway"
-"3  Configure your API key securely"
-"4  Ask for a supported task"
-A prominent workflow strip:
-"Inspect → Preview → Execute → Verify"
-Example panel:
-"Try this"
-"Check a student's course access and preview the change."
-
-Section heading: "Know the limits"
-Exact concise readable lines:
-"Does not build funnels or send campaigns."
-"Does not send SMS or issue refunds."
-"Subscription cancellation ≠ a refund."
-"Account features and connected services may limit actions."
-
-Footer:
-"Get the setup guide"
-"github.com/softreviewed/systeme-extra-mcp"
-Ensure no misleading claim that all20liveoperations tested, no guarantee freeaccount supportsallfeatures. Distincticons no repeated wallet decorations. Logical wraps and no clipped text. Beautiful public-facing infographic.
-
-Extra MCP infographic final refinement replaced letter-S symbols with neutral account icons. No recreated Systeme.io logo is used.
+White and ice-blue, navy type, one amber accent for the recommended key. Sections, exact text:
+- Title "Systeme.io Extra MCP", subtitle "The full Systeme.io public API for your AI assistant", "By SoftReviewed".
+- "What the official MCP was missing": Course enrolments, Community members, Custom field setup, Customer subscriptions, Webhooks, Twilio SMS checks; "Checked 6 October 2026".
+- "Official MCP vs Extra MCP": Coverage (Selected tools | All 152 public API actions); Enrolments & communities (Not included | Included); Every change (Its own rules | Previewed, then you confirm).
+- "Which key do I use?": "MCP key / Only for the official Systeme.io MCP" vs "Public API key / Use this one for Extra MCP"; "Settings → MCP & API keys → Public API keys".
+- "Get started": 1 Paste the repo link into your AI; 2 It sets everything up; 3 You save your Public API key; 4 Ask for any task.
+- Footer "github.com/softreviewed/systeme-extra-mcp", "Independent project, no official affiliation claim."

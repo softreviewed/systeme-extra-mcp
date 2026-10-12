@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "systeme-extra": {
+      "type": "stdio",
+      "command": "/ABSOLUTE/PATH/systeme-extra-mcp/.venv/bin/python",
+      "args": ["/ABSOLUTE/PATH/systeme-extra-mcp/server.py"],
+      "env": { "SYSTEME_API_KEY": "YOUR_PUBLIC_API_KEY" }
+    }
+  }
+}
