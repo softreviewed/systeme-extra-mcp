@@ -1,6 +1,18 @@
 # Verification status
 
-6 October 2026
+## v2: full public API, 13 October 2026
+
+- Operations: 152 actions in 22 tool groups, generated from every endpoint in `developer.systeme.io/llms.txt` by `scripts/build_operations.py`. Deprecated `PUT /api/mailing/newsletters/{id}` and `PUT /api/payment/coupons/{id}` are excluded; their `PATCH` versions are included.
+- All v1 tool and action names are kept.
+- Docker image: `mcp-systeme-extra:v2` built successfully.
+- 20 automated tests passed (`python test_server.py`): valid previews for all 152 operations, write gate, read-only POST without confirm, high-impact write blocked, compact and detailed help, deep schema references and mocked HTTP behaviour.
+- Gateway smoke test (`tests/gateway_smoke.py`): 22 tools, 152 operations and a write preview; no API requests sent.
+- Live read-only checks (`tests/live_read_checks.py`, 30 GET actions plus a subscription list): not yet run; no stored key.
+- Live writes: not performed.
+- GitHub publication: not performed.
+
+## v1: six companion groups, 6 October 2026
+
 
 - Docker image: `mcp-systeme-extra:v1` built successfully.
 - Docker custom catalog: `systeme-extra` registered and enabled.

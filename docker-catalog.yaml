@@ -4,16 +4,32 @@ displayName: Systeme.io Extra MCP
 registry:
   systeme-extra:
     title: Systeme.io Extra
-    description: Course enrolments, community access, custom fields, subscriptions, webhooks and SMS configuration.
+    description: The full documented Systeme.io public API - contacts, tags, funnels, emails, courses, products, payments, communities, webhooks and SMS - with preview-before-write safety.
     type: server
-    image: mcp-systeme-extra:v1
+    image: mcp-systeme-extra:v2
     secrets:
       - name: systeme.api_key
         env: SYSTEME_API_KEY
     tools:
-      - name: systeme_extra_enrolments
-      - name: systeme_extra_communities
+      - name: systeme_extra_contacts
+      - name: systeme_extra_tags
       - name: systeme_extra_contact_fields
+      - name: systeme_extra_automation_rules
+      - name: systeme_extra_booking
+      - name: systeme_extra_communities
+      - name: systeme_extra_account
+      - name: systeme_extra_funnels
+      - name: systeme_extra_pages
+      - name: systeme_extra_newsletters
+      - name: systeme_extra_campaigns
+      - name: systeme_extra_automation_emails
+      - name: systeme_extra_email_statistics
+      - name: systeme_extra_coupons
+      - name: systeme_extra_price_plans
+      - name: systeme_extra_products
+      - name: systeme_extra_sale_settings
       - name: systeme_extra_subscriptions
-      - name: systeme_extra_webhooks
+      - name: systeme_extra_courses
+      - name: systeme_extra_enrolments
       - name: systeme_extra_sms
+      - name: systeme_extra_webhooks

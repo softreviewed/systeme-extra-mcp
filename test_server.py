@@ -1,8 +1,26 @@
 import os
 import unittest
 from unittest.mock import patch
+import sys
+from pathlib import Path
 import httpx
 from server import OPERATIONS, manage, prepare
+
+sys.path.insert(0, str(Path(__file__).parent / "tests"))
+from sample_inputs import inputs  # noqa: E402
+
+# Inputs with patterns or rules that a generic generator cannot invent.
+EXPLICIT_BODIES = {
+    ("contact_fields", "create"): {"fieldName": "Customer", "slug": "customer"},
+    ("courses", "create"): {"domainId": 1, "name": "Starter", "path": "starter-course", "themeId": 1},
+    ("enrolments", "create"): {"contactId": 1, "accessType": "full_access"},
+    ("pages", "apply_template"): {"templateId": "t1", "placeholders": {"headline": "Hello"}},
+    ("sms", "create_template"): {"name": "Reminder", "content": "See you soon", "senderType": "PHONE_NUMBER",
+                                 "phoneNumber": "+15555550100"},
+    ("subscriptions", "cancel"): {"cancel": "Now"},
+    ("webhooks", "create"): {"name": "Test", "secret": "hidden", "url": "https://example.com/hook",
+                              "subscriptions": [{"event": "SALE_NEW", "schemaVersion": 2}]},
+}
 
 
 class ContractTests(unittest.TestCase):
@@ -13,21 +31,11 @@ class ContractTests(unittest.TestCase):
                 self.assertIn("Twilio integration is not configured", result["error"])
                 self.assertFalse(result["ok"])
     def test_every_operation_has_valid_preview(self):
-        bodies = {
-            ("enrolments", "create"): {"contactId": 1, "accessType": "full_access"},
-            ("communities", "add_member"): {"contactId": 1},
-            ("contact_fields", "create"): {"fieldName": "Customer", "slug": "customer"},
-            ("contact_fields", "update"): {"fieldName": "Customer type"},
-            ("subscriptions", "cancel"): {"cancel": "Now"},
-            ("webhooks", "create"): {"name": "Test", "secret": "hidden", "url": "https://example.com/hook",
-                                      "subscriptions": [{"event": "SALE_NEW", "schemaVersion": 2}]},
-            ("webhooks", "update"): {"active": False},
-        }
         for key, entry in OPERATIONS.items():
-            params = {p["name"]: 1 if p.get("schema", {}).get("type") == "integer" else "example"
-                      for p in entry["operation"].get("parameters", []) if p.get("required")}
+            params, body = inputs(entry)
+            body = EXPLICIT_BODIES.get(key, body)
             with self.subTest(operation=key):
-                result = manage(*key, parameters=params, body=bodies.get(key), dry_run=True)
+                result = manage(*key, parameters=params, body=body, dry_run=True)
                 self.assertTrue(result["ok"], result)
 
     def test_gateway_missing_secret_placeholder(self):
@@ -36,8 +44,40 @@ class ContractTests(unittest.TestCase):
             self.assertIn("not configured", manage("sms", "numbers")["error"])
 
     def test_complete_allowlist(self):
-        self.assertEqual(len(OPERATIONS), 20)
-        self.assertEqual(len({k[0] for k in OPERATIONS}), 6)
+        self.assertEqual(len(OPERATIONS), 152)
+        self.assertEqual(len({k[0] for k in OPERATIONS}), 22)
+        for original in [("enrolments", "create"), ("communities", "add_member"), ("contact_fields", "update"),
+                         ("subscriptions", "cancel"), ("webhooks", "get"), ("sms", "twilio_account")]:
+            self.assertIn(original, OPERATIONS)  # v1 tool and action names stay stable
+
+    def test_deprecated_endpoints_excluded(self):
+        for entry in OPERATIONS.values():
+            self.assertFalse(entry["operation"].get("deprecated"), entry["path"])
+
+    def test_read_only_post_needs_no_confirm(self):
+        def handle(request):
+            return httpx.Response(200, json={"type": "object"})
+        params, body = inputs(OPERATIONS[("pages", "schema")])
+        with patch.dict(os.environ, {"SYSTEME_API_KEY": "test-only"}):
+            result = manage("pages", "schema", params, body, transport=httpx.MockTransport(handle))
+        self.assertTrue(result["ok"], result)
+
+    def test_high_impact_write_blocked_without_confirm(self):
+        result = manage("newsletters", "send", {"id": 1})
+        self.assertIn("Write blocked", result["error"])
+        self.assertTrue(manage("newsletters", parameters={"action": "send"})["actions"]["send"]["high_impact"])
+
+    def test_help_is_compact_until_action_requested(self):
+        summary = manage("courses")
+        self.assertEqual(len(summary["actions"]), 20)
+        self.assertNotIn("schemas", summary["actions"]["create"])
+        detail = manage("courses", parameters={"action": "create"})
+        self.assertIn("schemas", detail["actions"]["create"])
+        self.assertFalse(manage("courses", parameters={"action": "nope"})["ok"])
+
+    def test_deep_json_pointer_parameter(self):
+        request = prepare("sale_settings", "payment_methods", {"currency": "usd"})
+        self.assertTrue(request["path"].endswith("/usd"))
 
     def test_required_subscription_contact(self):
         self.assertFalse(manage("subscriptions", "list", dry_run=True)["ok"])

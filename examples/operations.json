@@ -211,5 +211,60 @@
     "input": {
       "action": "twilio_account"
     }
+  },
+  {
+    "tool": "systeme_extra_contacts",
+    "input": {
+      "action": "list",
+      "parameters": {
+        "email": "jane@example.com"
+      }
+    }
+  },
+  {
+    "tool": "systeme_extra_contacts",
+    "input": {
+      "action": "add_tag",
+      "parameters": {
+        "id": "456"
+      },
+      "body": {
+        "tagId": 789
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_tags",
+    "input": {
+      "action": "create",
+      "body": {
+        "name": "Customer"
+      },
+      "dry_run": true
+    }
+  },
+  {
+    "tool": "systeme_extra_email_statistics",
+    "input": {
+      "action": "newsletters_list",
+      "parameters": {
+        "dateFrom": "2026-09-01",
+        "dateTo": "2026-09-30",
+        "limit": 10
+      }
+    }
+  },
+  {
+    "tool": "systeme_extra_funnels",
+    "input": {
+      "action": "list"
+    }
+  },
+  {
+    "tool": "systeme_extra_courses",
+    "input": {
+      "action": "list"
+    }
   }
 ]

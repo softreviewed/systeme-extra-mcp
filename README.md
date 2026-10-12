@@ -1,27 +1,23 @@
 # Systeme.io MCP Server: Use AI to Automate Sales Funnels, Email Marketing and CRM
 
-![Give your AI more Systeme.io tools for course access, community membership and subscriptions](docs/images/cover.png)
+![Give your AI assistant the full Systeme.io public API](docs/images/cover.png)
 
-**Manage student access, community members and customer subscriptions with your AI assistant.**
+**Run your Systeme.io account from your AI assistant: contacts, tags, funnels, pages, emails, courses, products, payments and more.**
 
-Use AI to carry out supported sales funnel, email marketing and customer-management tasks with the **official Systeme.io MCP**, then add **Systeme.io Extra MCP** for course access, community membership, custom contact fields, customer subscriptions, event notifications and SMS configuration checks.
+Systeme.io Extra MCP covers **every endpoint in Systeme.io's public API documentation**: 152 actions in 22 tool groups. It works on its own, without the official Systeme.io MCP, and connects to assistants such as Claude, Codex, Antigravity and Cursor.
 
 > 🚀 **Don't have an account yet? [Create your free Systeme.io account](https://systeme.io/?sa=sa014961805313a1b0df13d9b881e5c0c4563dda8f)** to get started with the platform. Already have one? Use your existing account.
 
 *Affiliate link: SoftReviewed may earn a commission from eligible purchases.*
 
-The title describes this combined setup. This independent companion does not itself build funnels, send email campaigns or provide a complete CRM. Here, automation means asking a connected assistant to perform supported actions; it does not mean an unattended business that runs without your instructions or review.
-
-Systeme.io Extra MCP connects its additional account actions to assistants such as Claude, Codex, Antigravity and Cursor. Start with the [official Systeme.io MCP overview](https://systeme.io/mcp) for the wider platform capabilities, then use the comparison below to decide whether you need this companion.
+Here, automation means asking a connected assistant to perform supported actions; it does not mean an unattended business that runs without your instructions or review.
 
 Built by SoftReviewed. Independent project; not endorsed by Systeme.io.
-
-![Systeme.io Extra MCP benefits, six tool groups, setup steps and supported-action limits](docs/images/infographic.png)
 
 ## Guide
 
 - [What you can do](#what-you-can-do)
-- [Official Systeme.io MCP or this companion?](#official-systemeio-mcp-or-this-companion)
+- [Official Systeme.io MCP or this one?](#official-systemeio-mcp-or-this-one)
 - [Is it right for you?](#is-it-right-for-you)
 - [Connect Systeme.io to Claude, Codex, Antigravity or Cursor](#connect-your-assistant)
 - [Technical reference](#technical-reference)
@@ -30,9 +26,9 @@ Built by SoftReviewed. Independent project; not endorsed by Systeme.io.
 
 ## Why use it?
 
-A customer needs access to a course. A community member needs to be removed. Someone wants their recurring purchase cancelled at the end of the billing period.
+You want to tag a customer, check last week's newsletter results, give a student course access and pause a coupon. Normally that is four dashboard screens.
 
-This companion makes those supported actions available to your assistant, so you can describe the outcome you want and review the proposed change before it is sent to Systeme.io. It brings six groups of features together in one connection, with 20 underlying actions.
+With this server your assistant can do all of it in one conversation. Every change is previewed first, and nothing is written until you say yes.
 
 **Your request -> assistant finds the right record -> previews the change -> you authorize it -> account updated.**
 
@@ -40,80 +36,71 @@ An assistant still needs accurate instructions and your review. The connection d
 
 ## What you can do
 
-| What you need | What this companion can do | Important limit |
+| Area | Tool groups | Examples |
 |---|---|---|
-| Give a customer access to a course | Add access, inspect existing access or remove it | The contact and course must already exist; it does not create lessons or refund a sale |
-| Manage a customer community | Find communities, add contacts, inspect members or remove membership | It does not create the community or moderate posts |
-| Organize the information you collect | Create, rename or remove custom customer-information fields | It defines the fields; it does not fill in each customer's answers |
-| Help a recurring-payment customer | Find their subscriptions and cancel a selected purchase immediately or at period end | It does not refund payments or cancel your own Systeme.io account plan |
-| Notify another service about account events | Add, inspect, edit, pause or remove event notifications called webhooks | You need a separate service to receive and process those notifications |
-| Check why SMS is not ready | Inspect the connected Twilio account, messaging services and sender numbers | Twilio must be connected; these tools do not send SMS |
+| Contacts and CRM | `contacts`, `tags`, `contact_fields` | Find a contact by email, add or remove tags, define custom fields |
+| Automation | `automation_rules`, `automation_emails` | List, create and edit rules; manage automation emails |
+| Funnels and pages | `funnels`, `pages` | List funnels and steps, create a step, read or save page content, apply a template |
+| Email marketing | `newsletters`, `campaigns`, `email_statistics` | Draft, target, schedule, test and send newsletters; edit campaign steps; read open and click stats |
+| Courses and community | `courses`, `enrolments`, `communities` | Build courses, modules and lectures; grant or remove access; manage community members |
+| Selling | `products`, `price_plans`, `coupons`, `sale_settings`, `subscriptions` | Manage digital and physical products, offers, prices and coupons; cancel a customer subscription |
+| Scheduling | `booking` | Read bookings; manage calendar events and availability |
+| Integrations | `webhooks`, `sms` | Manage event webhooks; check Twilio setup and SMS templates |
+| Account | `account` | List connected domains and uploaded files |
 
-### Course creators: keep student access organized
+Every action, its method, path and required inputs are listed in the [feature reference](docs/feature-reference.md). Ask the assistant for `help` on any group to see the same list.
 
-Ask: **"Show who has access to this course, then preview giving this customer access."**
+### Example requests
 
-You can grant full access, access to selected modules or a supported drip-access type. The course's teaching schedule and content are still managed in Systeme.io.
+- **"Find the contact jane@example.com and preview adding the tag Customer."**
+- **"Show open and click rates for my last three newsletters."**
+- **"Preview a 20% coupon for my course, valid until the end of the month."**
+- **"Show who has access to this course, then preview giving this customer access."**
+- **"Find this customer's subscription and preview cancelling it at the end of the billing period."**
 
-If you are learning the platform first, our [Systeme.io course](https://pricing-discount.systeme.io/courses) guide helps you compare the two free certification paths before you start managing real students.
+### Safety built in
 
-### Community owners: manage who can join
+| Type of action | What happens |
+|---|---|
+| Read | Runs straight away |
+| Write | Blocked until previewed (`dry_run`) and confirmed (`confirm`) after you agree |
+| High-impact write | Same gate, flagged as `high_impact` in help: sending a newsletter, deleting contacts, courses, campaigns or products, cancelling a subscription, overwriting a page |
 
-Ask: **"Find my customer community and preview adding this existing contact."**
+Only documented endpoints are allowed. Two deprecated endpoints (`PUT` newsletter and coupon updates) are left out in favour of their `PATCH` versions.
 
-The assistant can inspect memberships before making a change, helping you distinguish a customer record from their community access. Membership management is separate from creating a community or moderating conversations.
+## Official Systeme.io MCP or this one?
 
-### Customer support: choose the right cancellation timing
-
-Ask: **"Find this customer's recurring purchase and preview cancellation at the end of the billing period."**
-
-The two supported choices are immediate cancellation or cancellation when the billing period ends. Confirm which purchase and timing the customer wants. Neither choice is a refund.
-
-### Business owners: connect events and diagnose SMS
-
-Ask: **"Show my existing event notifications and preview pausing this receiver."** Or: **"Check whether my Twilio integration is configured."**
-
-Event notifications can tell your own connected service about supported contact, tag, opt-in and sale events. SMS checks help inspect configuration; they do not establish a messaging campaign or send texts.
-
-## Official Systeme.io MCP or this companion?
-
-**Use them together when you need both sets of features.** This companion focuses on additional account actions rather than rebuilding everything the official connector already does.
-
-| Your goal | Official connected integration | Systeme.io Extra MCP |
+| | Official Systeme.io MCP | Systeme.io Extra MCP |
 |---|---|---|
-| Use supported page, funnel, email, product and course-creation tools | Existing tools in the inspected inventory | Use the official integration for these |
-| Manage course enrolments | These three actions were absent from the inspected inventory | Add, list and remove access |
-| Manage community membership | These four actions were absent | Find communities; add, list and remove membership |
-| Define custom contact fields | Contact-value updates were already covered; these definition actions were absent | Create, rename and remove definitions |
-| Inspect/cancel customer recurring purchases | These two actions were absent | List by customer and cancel a selected subscription |
-| Manage event notifications | These five actions were absent | Create, list, inspect, edit and remove receivers |
-| Inspect Twilio configuration | SMS template tools existed; these three configuration reads were absent | Inspect services, numbers and connected account |
+| Coverage | Its own selected tool set | Every endpoint in the public API docs (152 actions) |
+| Course enrolments, community members, custom field definitions, subscriptions, webhooks, Twilio checks | Not in the inventory we inspected | Included |
+| Hosting | Hosted by Systeme.io | Runs locally through Docker Gateway |
+| Credential | Official MCP key | Public API key in Docker's secret store |
+| Write protection | Its own rules | Preview, then explicit confirm for every write |
 
-Comparison checked against the connected official tool inventory on **6 October 2026**. It describes that inventory, not a permanent claim about every official integration or future release.
+You can use either one alone or both together. The official inventory was inspected on **6 October 2026**; it may change.
 
 ## Is it right for you?
 
 ### Advantages
 
-- **Useful extra account actions:** manage access and recurring purchases through a compatible assistant.
-- **One connection across supported local assistants:** Docker Gateway runs the same companion for Claude, Codex, Antigravity or Cursor.
-- **Preview before changing account data:** see a proposed operation before an authorized write.
-- **Credentials stay out of client configuration:** keep the API key in Docker's secret store.
-- **Portable setup:** rebuild the image and recreate your secret when moving computers, without a developer-specific folder mount.
+- **The whole public API in one connection:** 22 tool groups across contacts, email, funnels, courses and payments.
+- **Works without the official MCP:** useful when you want one local connection for every assistant.
+- **Preview before changing account data:** every write is previewed and needs your go-ahead.
+- **Credentials stay out of client configuration:** the API key lives in Docker's secret store.
+- **Portable setup:** rebuild the image and recreate your secret when moving computers.
 
 ### Trade-offs and limitations
 
-- **Initial setup is technical.** You need Docker Gateway and a Systeme.io public API key. Your assistant or a technical helper can follow the setup instructions below.
-- **Not every feature is tested live.** Selected reads passed; writes were validated locally, and successful connected-Twilio responses remain untested. See [verification limits](#verification-limits).
-- **Your account's limits still apply.** It does not unlock paid features, increase capacity or bypass permissions.
-- **No built-in cloud hosting.** The supplied connection runs locally; a cloud-only assistant needs a separately hosted, authenticated connection.
-- **It is a companion, not the whole platform.** Keep the official connector and dashboard for features outside its scope.
-
-If you only need features already provided by the official integration, you may not need this companion. If one of the extra actions solves an actual workflow problem, start with a harmless read and preview before making changes.
+- **Initial setup is technical.** You need Docker Gateway and a Systeme.io public API key. Your assistant or a technical helper can follow the setup below.
+- **Not every action is tested live.** All 152 are checked offline; live checks cover read actions only. See [verification limits](#verification-limits).
+- **Only what the API offers.** Anything missing from Systeme.io's public API (for example, refunds or sending a single SMS) is missing here too.
+- **Your account's limits still apply.** It does not unlock paid features, raise capacity or bypass permissions.
+- **No built-in cloud hosting.** It runs locally; a cloud-only assistant needs a separately hosted, authenticated connection.
 
 ## New to Systeme.io?
 
-You need a Systeme.io account before this companion can work with your data. [Create a free Systeme.io account](https://systeme.io/?sa=sa014961805313a1b0df13d9b881e5c0c4563dda8f), then learn the dashboard before connecting an assistant to customer records.
+You need a Systeme.io account before this server can work with your data. [Create a free Systeme.io account](https://systeme.io/?sa=sa014961805313a1b0df13d9b881e5c0c4563dda8f), then learn the dashboard before connecting an assistant to customer records.
 
 For a small starting project, read our [Systeme.io free-plan features and limits guide](https://pricing-discount.systeme.io/free-plan-lifetime-deal). If you later need more capacity, compare the [Systeme.io pricing plans](https://pricing-discount.systeme.io/plan-pricing) and our explanation of [annual discounts and savings](https://pricing-discount.systeme.io/). A higher plan should solve a real capacity need; installing this MCP does not itself require you to upgrade.
 
@@ -127,7 +114,7 @@ You can also visit [SoftReviewed](https://softreviewed.com/) for additional reso
 
 Share this repository URL with your assistant and ask:
 
-> Read the README and setup files. Explain which features fit my task, inspect my existing Docker Gateway configuration, and help connect this companion without replacing my other servers. Start with help and a harmless read. Do not make account changes without my authorization.
+> Read the README and setup files. Explain which features fit my task, inspect my existing Docker Gateway configuration, and help connect this server without replacing my other servers. Start with help and a harmless read. Do not make account changes without my authorization.
 
 An assistant can read the instructions, but it still needs access to your local setup to configure it. Never put your API key into a public issue or commit.
 
@@ -144,7 +131,7 @@ Install/start Docker Desktop with MCP Toolkit/Gateway available. From this repos
 ```sh
 docker version
 docker mcp gateway run --help
-docker build -t mcp-systeme-extra:v1 .
+docker build -t mcp-systeme-extra:v2 .
 ```
 
 The image includes its source and schemas; clients need no source-folder mounts or local Python installation. Copy `docker-catalog.yaml` to `~/.docker/mcp/catalogs/systeme-extra.yaml` (Windows: `%USERPROFILE%\.docker\mcp\catalogs\systeme-extra.yaml`), creating the folder if needed.
@@ -160,7 +147,7 @@ Check discovery:
 docker mcp gateway run --catalog systeme-extra.yaml --servers systeme-extra --dry-run
 ```
 
-Expected: six tools. Explicit `--servers` selects this server without relying on the enabled-server registry. For an existing shared Gateway, merge the catalog entry, preserve other servers and reuse the existing client connection instead of adding duplicates.
+Expected: 22 tools, named `systeme_extra_<group>`. Explicit `--servers` selects this server without relying on the enabled-server registry. For an existing shared Gateway, merge the catalog entry, preserve other servers and reuse the existing client connection instead of adding duplicates.
 
 The catalog workflow was tested with the installed CLI. Newer Docker Toolkit profile workflows may differ; inspect your installed `docker mcp gateway run --help`. [Docker MCP documentation](https://docs.docker.com/ai/mcp-catalog-and-toolkit/).
 
@@ -198,7 +185,7 @@ No credentials belong in client JSON or Git. The temporary verification key and 
 
 ### Claude Desktop
 
-To connect Systeme.io to Claude Desktop using this companion, configure the local Docker Gateway entry below. This is separate from the official hosted Systeme.io connector.
+To connect Systeme.io to Claude Desktop using this server, configure the local Docker Gateway entry below. This is separate from the official hosted Systeme.io connector.
 
 Settings -> Developer -> Edit Config. Merge [claude-desktop.json](examples/clients/claude-desktop.json), then fully restart the app.
 
@@ -274,7 +261,7 @@ For another stdio client, use command `docker` with the same arguments. If Docke
 
 ## Technical reference
 
-The additional operations are based on [Systeme.io's public API documentation](https://developer.systeme.io/llms.txt). Use it to verify supported endpoints alongside the checked-in schemas and examples.
+The operations are generated from [Systeme.io's public API documentation](https://developer.systeme.io/llms.txt). Use it to verify supported endpoints alongside the checked-in schemas and examples.
 
 ### Common arguments
 
@@ -302,36 +289,15 @@ Workflow: help -> find real IDs -> preview -> user authorizes -> execute -> veri
 | Retries | No automatic retries, including writes |
 | Output | API data preserved; sensitive field names redacted recursively |
 
-Enrolments, communities, memberships and customer subscriptions support `limit` (10-100), `order` (`asc`/`desc`) and integer `startingAfter` (>=1). When the collection reports more results, use the last item's ID as the next cursor, preserving filters/order. No automatic all-page retrieval. Webhook/SMS schemas expose no such query inputs.
+List actions that support paging take `limit` (10-100), `order` (`asc`/`desc`) and `startingAfter`. When the result reports `hasMore`, pass the last item's ID as the next `startingAfter`, keeping the same filters and order. There is no automatic all-page retrieval. Use `help` with `parameters={"action": "<name>"}` to see the exact inputs of any action.
 
 Success includes `ok`, `status`, `data`, `rate_limit_remaining`. HTTP errors include `ok:false`, `status`, documented explanation, and `retry_after` when returned. No fixed API allowance is promised. A timeout does not prove a write failed: inspect account state before retrying.
 
-Redaction is field-name based, not complete removal of personal data. Do not share customer outputs publicly. All 20 method/path pairs and original schemas/source URLs are in [docs/operations.json](docs/operations.json); copyable inputs are in [examples/operations.json](examples/operations.json).
+Redaction is field-name based, not complete removal of personal data. Do not share customer outputs publicly. All 152 method/path pairs and original schemas/source URLs are in [docs/operations.json](docs/operations.json); copyable inputs are in [examples/operations.json](examples/operations.json).
 
 ### Endpoint map
 
-| Action | Method | Official API path |
-|---|---|---|
-| enrolments.create | POST | `/api/school/courses/{courseId}/enrollments` |
-| enrolments.list | GET | `/api/school/enrollments` |
-| enrolments.remove | DELETE | `/api/school/enrollments/{id}` |
-| communities.list | GET | `/api/community/communities` |
-| communities.add_member | POST | `/api/community/communities/{communityId}/memberships` |
-| communities.list_members | GET | `/api/community/memberships` |
-| communities.remove_member | DELETE | `/api/community/memberships/{id}` |
-| contact_fields.create | POST | `/api/contact_fields` |
-| contact_fields.remove | DELETE | `/api/contact_fields/{slug}` |
-| contact_fields.update | PATCH | `/api/contact_fields/{slug}` |
-| subscriptions.list | GET | `/api/payment/subscriptions` |
-| subscriptions.cancel | POST | `/api/payment/subscriptions/{id}/cancel` |
-| webhooks.list | GET | `/api/webhooks` |
-| webhooks.create | POST | `/api/webhooks` |
-| webhooks.get | GET | `/api/webhooks/{id}` |
-| webhooks.remove | DELETE | `/api/webhooks/{id}` |
-| webhooks.update | PATCH | `/api/webhooks/{id}` |
-| sms.services | GET | `/api/sms/message-services` |
-| sms.numbers | GET | `/api/sms/phone-numbers` |
-| sms.twilio_account | GET | `/api/sms/twilio-account` |
+The full map of 152 actions, with method, path, required input and read/write type, is in the [feature reference](docs/feature-reference.md). It is generated from [docs/operations.json](docs/operations.json) by `scripts/build_reference.py`; `docs/operations.json` itself is rebuilt from the official docs by `scripts/build_operations.py`.
 
 ## Troubleshooting
 
@@ -345,6 +311,7 @@ Redaction is field-name based, not complete removal of personal data. Do not sha
 | Invalid input | Use help; verify spelling, types and required fields |
 | Partial access rejected | Supply a non-empty integer `modules` array |
 | Subscription list cannot run | Find a real contact ID first |
+| Write blocked | Preview with `dry_run`, get approval, then send with `confirm` |
 | SMS 424 / account 404 | Connect Twilio; documented missing-integration responses |
 | HTTP 429 | Respect returned retry/rate-limit information |
 | Write timed out | Check account state before retrying |
@@ -352,16 +319,15 @@ Redaction is field-name based, not complete removal of personal data. Do not sha
 
 ## Verification limits
 
-| Check | Status, 6 October 2026 |
+| Check | Status, 13 October 2026 |
 |---|---|
-| Local tests | 15 passed; all 20 previews and mocked HTTP behavior |
-| Docker Gateway | Six tools, all help calls and enrolment preview passed |
-| Authenticated reads | Enrolment, community, membership and webhook lists returned 200 |
-| Missing Twilio | Documented 424 / 424 / 404 confirmed |
-| Successful connected Twilio | Not tested |
-| Subscription operations | No real contact/subscription test resource available |
+| Local tests | 20 passed; previews for all 152 actions, write gates, help and mocked HTTP |
+| Docker Gateway | 22 tools and 152 operations listed; write preview passed; no API requests sent |
+| Authenticated reads | Script ready (`tests/live_read_checks.py`, 30 read-only checks); waiting for a stored key |
 | Live writes | Not performed; local validation only |
 | Individual assistant apps | Configs checked against documentation; not all tested in-app |
+
+Earlier v1 checks (6 October 2026): enrolment, community, membership and webhook lists returned 200, and missing-Twilio responses 424 / 424 / 404 matched the docs.
 
 See [full verification details](docs/verification.md). Account permissions and product restrictions still apply.
 
