@@ -69,7 +69,8 @@ def redact(value):
 
 
 def api_key():
-    key = os.getenv("SYSTEME_API_KEY", "").strip()
+    # Drop a byte-order mark or control characters that shells can add when piping the secret.
+    key = "".join(c for c in os.getenv("SYSTEME_API_KEY", "") if c.isprintable()).strip().lstrip("﻿")
     return key if key and key != "<UNKNOWN>" else None
 
 
