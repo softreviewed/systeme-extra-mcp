@@ -6,6 +6,8 @@
 
 Systeme.io Extra MCP covers **every endpoint in Systeme.io's public API documentation**: 152 actions in 22 tool groups. It works on its own, without the official Systeme.io MCP, and connects to assistants such as Claude, Codex, Antigravity and Cursor.
 
+![Same request, different answer: the official MCP says it can't give course access; Extra MCP prepares a preview and asks you to approve](docs/images/same-request.png)
+
 > 🚀 **Don't have an account yet? [Create your free Systeme.io account](https://systeme.io/?sa=sa014961805313a1b0df13d9b881e5c0c4563dda8f)** to get started with the platform. Already have one? Use your existing account.
 
 *Affiliate link: SoftReviewed may earn a commission from eligible purchases.*
@@ -92,12 +94,14 @@ Only documented endpoints are allowed. Two deprecated endpoints (`PUT` newslette
 
 ## Official Systeme.io MCP or this one?
 
+![The missing pieces of Systeme.io's official MCP: course access, community members, custom fields, subscriptions, webhooks and Twilio check](docs/images/missing-pieces.png)
+
 | | Official Systeme.io MCP | Systeme.io Extra MCP |
 |---|---|---|
 | Coverage | Its own selected tool set | Every endpoint in the public API docs (152 actions) |
 | Course enrolments, community members, custom field definitions, subscriptions, webhooks, Twilio checks | Not in the inventory we inspected | Included |
-| Hosting | Hosted by Systeme.io | Runs locally through Docker Gateway |
-| Credential | Official MCP key | Public API key in Docker's secret store |
+| Hosting | Hosted by Systeme.io | Runs on your computer (Docker Gateway or direct Python) |
+| Credential | Official MCP key | Public API key (Docker's secret store or your config file) |
 | Write protection | Its own rules | Preview, then explicit confirm for every write |
 
 You can use either one alone or both together. See the [official Systeme.io MCP overview](https://systeme.io/mcp) for what it offers. The official inventory was inspected on **6 October 2026**; it may change.

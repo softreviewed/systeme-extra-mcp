@@ -15,3 +15,11 @@ White and ice-blue, navy type, one amber accent for the recommended key. Section
 - "Which key do I use?": "MCP key / Only for the official Systeme.io MCP" vs "Public API key / Use this one for Extra MCP"; "Settings → MCP & API keys → Public API keys".
 - "Get started": 1 Paste the repo link into your AI; 2 It sets everything up; 3 You save your Public API key; 4 Ask for any task.
 - Footer "github.com/softreviewed/systeme-extra-mcp", "Independent project, no official affiliation claim."
+
+## same-request.png (13 Oct 2026, gpt-image-2 via Qolaba)
+
+Before/after chat scene: "Same request. Different answer." Left: official MCP replies "Sorry, I can't do that." Right: Extra MCP replies with a preview and an Approve button. Footer: 18 extra actions, preview before every change.
+
+## missing-pieces.png (13 Oct 2026, gpt-image-2 via Merlin)
+
+Jigsaw puzzle: grey board labelled "Official MCP" with six blue pieces flying in (Course access, Community members, Custom fields, Subscriptions, Webhooks, Twilio check). Headline: "The missing pieces of Systeme.io's official MCP / Extra MCP fills the gaps."
