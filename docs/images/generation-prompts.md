@@ -23,3 +23,7 @@ Before/after chat scene: "Same request. Different answer." Left: official MCP re
 ## missing-pieces.png (13 Oct 2026, gpt-image-2 via Merlin)
 
 Jigsaw puzzle: grey board labelled "Official MCP" with six blue pieces flying in (Course access, Community members, Custom fields, Subscriptions, Webhooks, Twilio check). Headline: "The missing pieces of Systeme.io's official MCP / Extra MCP fills the gaps."
+
+## multi-account.png (13 Oct 2026, gpt-image-2 via Merlin)
+
+Hub diagram: headline "One server. Many Systeme.io accounts." / "You name each account. Your AI switches on request." A central "Extra MCP" hub connected to three key-tag cards "shop", "client-2", "blog"; a chat bubble "Show contacts for client-2"; a strip "SYSTEME_API_KEY_SHOP · SYSTEME_API_KEY_CLIENT-2 · SYSTEME_API_KEY_BLOG"; pill "Writes always name one account". Names are examples; text checked after generation. Qolaba returned errors for this prompt, so Merlin was used.

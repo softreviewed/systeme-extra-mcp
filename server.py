@@ -68,10 +68,53 @@ def redact(value):
     return value
 
 
-def api_key():
+KEY_PREFIX = "SYSTEME_API_KEY_"
+DEFAULT_ACCOUNT = "default"
+
+
+def clean_key(value):
     # Drop a byte-order mark or control characters that shells can add when piping the secret.
-    key = "".join(c for c in os.getenv("SYSTEME_API_KEY", "") if c.isprintable()).strip().lstrip("﻿")
+    key = "".join(c for c in (value or "") if c.isprintable()).strip().lstrip("﻿")
     return key if key and key != "<UNKNOWN>" else None
+
+
+def api_key():
+    return clean_key(os.getenv("SYSTEME_API_KEY"))
+
+
+def accounts():
+    # SYSTEME_API_KEY is the account named "default"; SYSTEME_API_KEY_<NAME> adds an account called <name>.
+    found = {}
+    for var, value in os.environ.items():
+        name = var[len(KEY_PREFIX):].lower() if var.upper().startswith(KEY_PREFIX) else ""
+        if name and name not in ("default", "all") and clean_key(value):
+            found[name] = clean_key(value)
+    found = dict(sorted(found.items()))
+    if api_key():
+        found = {DEFAULT_ACCOUNT: api_key(), **found}
+    return found
+
+
+def pick_account(requested, write):
+    """Return (name, key) or (None, error dict). Account names are shown, keys never are."""
+    available = accounts()
+    names = sorted(available)
+    if not available:
+        return None, {"ok": False, "error": "SYSTEME_API_KEY is not configured. Set SYSTEME_API_KEY, or "
+                      "SYSTEME_API_KEY_<NAME> for each named account."}
+    if requested is None or not str(requested).strip():
+        if len(available) == 1:
+            name = names[0]
+        elif not write and DEFAULT_ACCOUNT in available:
+            name = DEFAULT_ACCOUNT
+        else:
+            return None, {"ok": False, "error": "Several accounts are configured: ask the user which one, then pass "
+                          "account=<name>. Writes always need an explicit account.", "accounts": names}
+    else:
+        name = str(requested).strip().lower()
+        if name not in available:
+            return None, {"ok": False, "error": "Unknown account.", "accounts": names}
+    return name, available[name]
 
 
 def validate(data, schema, spec, label="body"):
@@ -128,7 +171,8 @@ def prepare(domain, action, parameters=None, body=None):
             "body": body if content else None, "content_type": content_type, "source": entry["source"]}
 
 
-def manage(domain, action="help", parameters=None, body=None, confirm=False, dry_run=False, transport=None):
+def manage(domain, action="help", parameters=None, body=None, confirm=False, dry_run=False, transport=None,
+           account=None):
     if action == "help":
         wanted = (parameters or {}).get("action")
         actions = {}
@@ -148,7 +192,8 @@ def manage(domain, action="help", parameters=None, body=None, confirm=False, dry
             actions[name] = info
         if wanted and not actions:
             return {"ok": False, "error": "Unknown action. Call help without parameters to list actions."}
-        return {"actions": actions, "configured": bool(api_key()),
+        return {"actions": actions, "configured": bool(accounts()), "accounts": sorted(accounts()),
+                "account_note": "With several accounts, pass account=<name> (reads also accept 'all'); writes always need one.",
                 "details": "Call help with parameters={'action': '<name>'} for exact inputs and schemas.",
                 "writes_require": "Explicit user authorization and confirm=True. Use dry_run=True for preview.",
                 "pagination": "Use returned hasMore and last item id as startingAfter where supported; preserve order."}
@@ -156,13 +201,38 @@ def manage(domain, action="help", parameters=None, body=None, confirm=False, dry
         request = prepare(domain, action, parameters, body)
     except ValueError as exc:
         return {"ok": False, "error": str(exc)}
+    write = is_write(domain, action)
+    all_accounts = str(account or "").strip().lower() == "all"
+    if all_accounts and write:
+        return {"ok": False, "error": "account='all' is for reads only. Name one account for a write.",
+                "accounts": sorted(accounts())}
     if dry_run:
-        return {"ok": True, "dry_run": True, "request": redact(request)}
-    if is_write(domain, action) and not confirm:
+        preview = {"ok": True, "dry_run": True, "request": redact(request)}
+        if all_accounts:
+            preview["account"] = "all"
+        elif accounts():
+            name, picked = pick_account(account, write)
+            if name is None:
+                return picked
+            preview["account"] = name
+        return preview
+    if write and not confirm:
         return {"ok": False, "error": "Write blocked: review dry_run, obtain user authorization, then set confirm=True."}
-    key = api_key()
-    if not key:
-        return {"ok": False, "error": "SYSTEME_API_KEY is not configured in Docker secrets."}
+    if all_accounts:
+        names = sorted(accounts())
+        if not names:
+            return pick_account(None, False)[1]
+        results = {n: manage(domain, action, parameters, body, confirm, dry_run, transport, n) for n in names}
+        return {"ok": all(r.get("ok") for r in results.values()), "account": "all", "results": results}
+    name, key = pick_account(account, write)
+    if name is None:
+        return key
+    result = call_api(request, key, domain, action, transport)
+    result["account"] = name
+    return result
+
+
+def call_api(request, key, domain, action, transport):
     headers = {"X-API-Key": key, "Accept": "application/json"}
     if request["content_type"]:
         headers["Content-Type"] = request["content_type"]
@@ -193,12 +263,14 @@ mcp = FastMCP("Systeme.io Extra", instructions="Independent integration for the 
 
 def register(domain, description):
     def tool(action: str = "help", parameters: dict | None = None, body: dict | list | None = None,
-             confirm: bool = False, dry_run: bool = False) -> dict:
-        return manage(domain, action, parameters, body, confirm, dry_run)
+             confirm: bool = False, dry_run: bool = False, account: str | None = None) -> dict:
+        return manage(domain, action, parameters, body, confirm, dry_run, account=account)
     tool.__name__ = "systeme_extra_" + domain
     tool.__doc__ = (description + " Call action='help' to list actions, then help with parameters={'action': name}"
                     " for exact inputs. parameters holds path/query fields; body holds payload. dry_run=True"
-                    " previews without sending. confirm=True is required for authorized writes.")
+                    " previews without sending. confirm=True is required for authorized writes."
+                    " account names which Systeme.io account to use when several are configured"
+                    " (help lists them); reads accept 'all', writes need one named account.")
     mcp.tool()(tool)
 
 

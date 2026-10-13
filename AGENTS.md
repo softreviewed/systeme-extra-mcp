@@ -89,6 +89,10 @@ The user needs a **Public API key**: Systeme.io → Settings → MCP & API keys 
 | No tools shown | Wrong path in config, or client not restarted |
 | `ModuleNotFoundError` | Command is not the `.venv` Python; use the absolute venv path |
 
+## 6b. Several accounts (route B only)
+
+If the user has more than one Systeme.io account, add one env var per account next to `SYSTEME_API_KEY`: `SYSTEME_API_KEY_<NAME>`, where `<NAME>` is the name the user chooses. Ask for the names only; the user types the keys into their own config file. Afterwards `help` lists `accounts`. Pass `account=<name>` on each call; reads accept `account="all"`; writes always need a named account. When several accounts exist and the user has not said which one, ask.
+
 ## 7. Using it
 
 Every write needs a preview (`dry_run: true`) shown to the user, their clear yes, then the same call with `confirm: true`. Actions marked `high_impact` in `help` (sending newsletters, deleting, cancelling subscriptions, overwriting pages) deserve extra care. Full action list: `docs/feature-reference.md`.

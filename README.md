@@ -252,6 +252,50 @@ claude mcp add --transport stdio --scope user systeme-extra --env SYSTEME_API_KE
 
 The sections below show the Option A (Docker) entry for each app. For Option B, use the same file locations with the entry above.
 
+#### Several Systeme.io accounts in one server (Option B)
+
+![One server, many Systeme.io accounts: you name each account in your config and your AI switches between them when you ask](docs/images/multi-account.png)
+
+Manage a shop, a blog and client accounts with one install. You choose each account's name; your assistant switches when you ask.
+
+**1. Create a Public API key in each account.** Systeme.io → Settings → MCP & API keys → **Public API keys**. Use the Public API key, not the MCP key.
+
+**2. Name your accounts in the config.** In the `env` block of your server entry, add one line per account: `SYSTEME_API_KEY_` followed by the name you want.
+
+```json
+"env": {
+  "SYSTEME_API_KEY_SHOP": "PUBLIC_API_KEY_FOR_SHOP",
+  "SYSTEME_API_KEY_CLIENT-2": "PUBLIC_API_KEY_FOR_CLIENT_2"
+}
+```
+
+| You write in the config | You say in chat |
+|---|---|
+| `SYSTEME_API_KEY_SHOP` | "shop" |
+| `SYSTEME_API_KEY_CLIENT-2` | "client-2" |
+| `SYSTEME_API_KEY_MY_BLOG` | "my_blog" |
+
+Naming rules: letters, digits, `_` and `-` only (no spaces; write `my_blog`, not `my blog`). Names are not case-sensitive. `default` and `all` are reserved. Keep your keys in the config file; never paste them into a chat. For Claude Code, repeat `--env` once per account: `claude mcp add ... --env SYSTEME_API_KEY_SHOP=... --env SYSTEME_API_KEY_CLIENT-2=...`.
+
+**3. Restart your app once**, then say which account you mean:
+
+- "Show the contacts in **client-2**."
+- "List the tags in **shop**, then the tags in **blog**."
+- "Compare my courses across **all** accounts."
+
+The assistant passes `account` on each call, so switching needs no config edit and no restart. To rename or add an account later, edit the config and restart once.
+
+| Situation | What happens |
+|---|---|
+| Only `SYSTEME_API_KEY` is set (your current setup) | Works exactly as before; no account name needed |
+| `account: "shop"` | Uses that account's key |
+| `account: "all"` | Reads from every account; each result is labelled with its account |
+| Several accounts, no name given | Reads use the account called `default` (from `SYSTEME_API_KEY`) if you keep one; otherwise the assistant asks which account |
+| A write (create, update, remove, send) | Always needs one named account; `all` is refused. Previews (`dry_run`) show the account that will be used |
+| Unknown account name | Rejected, and the reply lists the valid names |
+
+Every reply includes the `account` it came from, and `help` lists the account names, never the keys. Option A (Docker) stores one secret, so it stays single-account; use Option B for several accounts.
+
 ### Claude Desktop
 
 To connect Systeme.io to Claude Desktop using this server, configure the local Docker Gateway entry below. This is separate from the official hosted Systeme.io connector.
@@ -341,6 +385,7 @@ The operations are generated from [Systeme.io's public API documentation](https:
 | `body` | Payload for operations that accept one | Empty |
 | `dry_run` | Validate/preview without requesting the API | `false` |
 | `confirm` | Permit a write after human authorization | `false` |
+| `account` | Which configured Systeme.io account to use; reads also accept `all` | Only account, or `default` for reads |
 
 Workflow: help -> find real IDs -> preview -> user authorizes -> execute -> verify. `confirm:true` is a server guard, not evidence of human permission. All write examples in [examples/operations.json](examples/operations.json) are previews; execute an authorized write by replacing `dry_run:true` with `confirm:true`. Replace example IDs with actual selected records.
 

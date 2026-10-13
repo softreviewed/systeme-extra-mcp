@@ -138,5 +138,64 @@ class ContractTests(unittest.TestCase):
         self.assertNotIn("data", result)
 
 
+class MultiAccountTests(unittest.TestCase):
+    TWO = {"SYSTEME_API_KEY_SHOP": "key-shop", "SYSTEME_API_KEY_Client-2": "key-client2"}
+
+    @staticmethod
+    def echo_key(request):
+        return httpx.Response(200, json={"items": [], "seen": request.headers["X-API-Key"]})
+
+    def run_manage(self, env, *args, **kwargs):
+        with patch.dict(os.environ, env, clear=True):
+            return manage(*args, transport=httpx.MockTransport(self.echo_key), **kwargs)
+
+    def test_single_key_still_works_without_account(self):
+        result = self.run_manage({"SYSTEME_API_KEY": "k1"}, "tags", "list")
+        self.assertEqual((result["data"]["seen"], result["account"]), ("k1", "default"))
+
+    def test_user_chosen_names_switch_keys(self):
+        shop = self.run_manage(self.TWO, "tags", "list", account="shop")
+        client = self.run_manage(self.TWO, "tags", "list", account="Client-2")
+        self.assertEqual((shop["data"]["seen"], shop["account"]), ("key-shop", "shop"))
+        self.assertEqual((client["data"]["seen"], client["account"]), ("key-client2", "client-2"))
+
+    def test_several_accounts_without_a_name_asks(self):
+        result = self.run_manage(self.TWO, "tags", "list")
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["accounts"], ["client-2", "shop"])
+
+    def test_default_key_serves_reads_but_not_writes_when_several(self):
+        env = {"SYSTEME_API_KEY": "k-main", **self.TWO}
+        self.assertEqual(self.run_manage(env, "tags", "list")["data"]["seen"], "k-main")
+        write = self.run_manage(env, "tags", "create", body={"name": "x"}, confirm=True)
+        self.assertFalse(write["ok"])
+        self.assertIn("Writes always need an explicit account", write["error"])
+
+    def test_unknown_account_lists_names_not_keys(self):
+        result = self.run_manage(self.TWO, "tags", "list", account="nope")
+        self.assertFalse(result["ok"])
+        self.assertNotIn("key-shop", str(result))
+
+    def test_all_reads_every_account_and_labels_each(self):
+        result = self.run_manage(self.TWO, "tags", "list", account="all")
+        self.assertEqual({n: r["data"]["seen"] for n, r in result["results"].items()},
+                         {"shop": "key-shop", "client-2": "key-client2"})
+
+    def test_all_refused_for_writes(self):
+        result = self.run_manage(self.TWO, "tags", "create", body={"name": "x"}, confirm=True, account="all")
+        self.assertFalse(result["ok"])
+
+    def test_dry_run_names_the_account(self):
+        result = self.run_manage(self.TWO, "tags", "create", body={"name": "x"}, dry_run=True, account="shop")
+        self.assertEqual(result["account"], "shop")
+        self.assertFalse(self.run_manage(self.TWO, "tags", "create", body={"name": "x"}, dry_run=True)["ok"])
+
+    def test_help_lists_account_names_only(self):
+        with patch.dict(os.environ, self.TWO, clear=True):
+            result = manage("tags")
+        self.assertEqual(result["accounts"], ["client-2", "shop"])
+        self.assertNotIn("key-shop", str(result))
+
+
 if __name__ == "__main__":
     unittest.main()
